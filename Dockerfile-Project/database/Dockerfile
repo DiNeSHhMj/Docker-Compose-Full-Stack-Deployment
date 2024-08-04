@@ -12,3 +12,4 @@ VOLUME /var/lib/mysql
 
 # Command to run the MySQL server
 CMD ["mysqld"]
+

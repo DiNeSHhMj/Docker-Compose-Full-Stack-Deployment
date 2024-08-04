@@ -18,3 +18,6 @@ EXPOSE 3500
 
 # Command to run your application
 CMD ["node", "server.js"]
+
+
+
