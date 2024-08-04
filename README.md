@@ -2,7 +2,7 @@
 
 
 
-Deploy a three-tier MERN stack application using **Docker Compose** or **Dockerfiles**, consisting of a MySQL database, a Node.js backend, and a React.js frontend.
+Deploy a three-tier full stack application using **Docker Compose** or **Dockerfiles**, consisting of a MySQL database, a Node.js backend, and a React.js frontend.
 
 ---
 
