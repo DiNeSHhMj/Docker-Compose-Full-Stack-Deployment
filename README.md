@@ -1,63 +1,127 @@
-# Docker Projects
-[![LinkedIn](https://img.shields.io/badge/Connect%20with%20me%20on-LinkedIn-blue.svg)](https://www.linkedin.com/in/aman-devops/)
-[![GitHub](https://img.shields.io/github/stars/AmanPathak-DevOps.svg?style=social)](https://github.com/AmanPathak-DevOps)
-[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/u/avian19)
+# Three-Tier Application Deployment
 
-![Docker Logo](https://seeklogo.com/images/D/docker-logo-6D6F987702-seeklogo.com.png)
 
-Welcome to my Docker Projects repository! 🚀 In this collection, you'll find Dockerfiles and projects for various technologies, making it easy to containerize your applications.
 
-## Table of Contents
-- [NodeJS](#nodejs)
-- [Python](#python)
-- [Apache](#apache)
-- [Java](#java)
-- [Nginx](#nginx)
-- [Spring Boot](#spring-boot)
-- [Tomcat](#tomcat)
-- [Python Project for Helm and Kubernetes](#python-project-for-helm-and-kubernetes)
+Deploy a three-tier MERN stack application using **Docker Compose** or **Dockerfiles**, consisting of a MySQL database, a Node.js backend, and a React.js frontend.
 
-## NodeJS
-- Dockerfile: [NodeJS-Dockerfile](NodeJS-Dockerfile)
+---
 
-Description: Basic NodeJS Application to deploy on the docker container.
+## 📋 Overview
 
-## Python
-- Dockerfile: [Python-Dockerfile](Python-Dockerfile)
+This repository demonstrates two methods for deploying a three-tier application:
 
-Description: Basic Python Application to deploy on the docker container.
+- **Docker Compose**: Simplifies managing multi-container deployments.
+- **Dockerfiles**: Offers fine-grained control over each component.
 
-## Apache
-- Dockerfile: [Apache-Dockerfile](Apache-Dockerfile)
+---
 
-Description: Static Application to deploy on the docker container.
+## 📦 Prerequisites
 
-## Java
-- Dockerfile: [Java-Dockerfile](Java-Dockerfile)
+Ensure you have the following installed:
 
-Description: Basic Java Application to deploy on the docker container.
+| Tool          | Installation Link |
+|---------------|-------------------|
+| **Docker**    | [Get Docker](https://www.docker.com/get-started) |
+| **Docker Compose** (for Docker Compose method) | [Install Docker Compose](https://docs.docker.com/compose/install/) |
 
-## Nginx
-- Dockerfile: [Nginx-Dockerfile](Nginx-Dockerfile)
+---
 
-Description: Static Application to deploy on the docker container.
+## 🚀 Deployment Methods
 
-## Spring Boot
-- Dockerfile: [Springboot-Dockerfile](Springboot-Dockerfile)
 
-Description: Basic Springboot Application to deploy on the docker container.
 
-## Tomcat
-- Dockerfile: [Tomcat-Dockerfile](Tomcat-Dockerfile)
+### Method 1: Dockerfiles
 
-Description: Basic Tomcat Application to deploy on the docker container
+#### Project Structure
 
-## Python Project for Helm and Kubernetes
-- Dockerfile: [Python-Project-for-Helm-K8s](Python-Project-for-Helm-K8s)
+```
+project-root/
+│
+├── frontend/   # React.js frontend application
+├── backend/    # Node.js backend application
+└── mysql/      # MySQL Dockerfile and configurations
+```
 
-Description: Python Flask Application to deploy REST API on the docker container
+#### Steps
 
-Feel free to explore each project and leverage the Dockerfiles for containerizing your applications. If you have any questions or suggestions, don't hesitate to reach out.
+1. **Set Up MySQL**
+   ```bash
+   cd mysql
+   docker build -t mysql-image .
+   docker run --name mysql-container --network=three-tier-network -p 3306:3306 -v mysql-data:/var/lib/mysql -d mysql-image
+   ```
 
-Happy coding! 👨‍💻
-# DiNeSHhMj-dcker
+2. **Initialize Database**
+   ```bash
+   docker exec -it mysql-container /bin/bash
+   # Inside the container:
+   mysql -u root -p
+   USE school;
+   CREATE TABLE student (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(40), roll_number INT, class VARCHAR(16));
+   CREATE TABLE teacher (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(40), subject VARCHAR(40), class VARCHAR(16));
+   ```
+
+3. **Set Up Backend**
+   ```bash
+   cd backend
+   docker build -t backend .
+   docker run -d -p 3500:3500 --name backend-container --network=three-tier-network backend
+   ```
+
+4. **Set Up Frontend**
+   ```bash
+   cd frontend
+   docker build -t frontend .
+   docker run -d --name frontend-container --network=three-tier-network -p 80:80 frontend
+   ```
+
+5. **Access the Application**
+   - Open [http://localhost:80](http://localhost:80) in your browser.
+
+### Method 2: Docker Compose
+
+#### Project Structure
+
+```
+project-root/
+│
+├── frontend/             # React.js frontend Dockerfile and files
+├── backend/              # Node.js backend Dockerfile and files
+├── docker-compose.yml    # Docker Compose configuration
+├── student-teacher-app/  # Frontend application code
+└── backend/              # Backend application code
+```
+
+#### Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+2. **Build and Run Containers**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the Application**
+   - Open [http://localhost:80](http://localhost:80) in your browser.
+
+
+
+---
+
+## 💾 Data Persistence
+
+Data persistence is managed through Docker volumes. This ensures that even if the MySQL container is removed, your data remains intact and is preserved in a Docker volume. When a new container is created with the same volume, it will automatically reattach the stored data, maintaining continuity and reliability.
+
+
+---
+
+## 📝 Conclusion
+
+Feel free to explore and modify the Docker Compose configurations or Dockerfiles to deepen your understanding of containerization and deployment. Happy coding! 🚀
+```
+
+This format maintains a clear structure, uses collapsible sections for detailed instructions, and is designed to be engaging and easy to navigate.
