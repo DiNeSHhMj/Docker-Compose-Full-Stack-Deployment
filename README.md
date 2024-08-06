@@ -4,7 +4,7 @@
 
 Deploy a three-tier full stack application using **Docker Compose** or **Dockerfiles**, consisting of a MySQL database, a Node.js backend, and a React.js frontend.
 
-![Architecture](Dockerfile-Project/assets/Docker-architecture.svg)
+![Architecture](Dockerfile-Project/assets/docker-final.gif)
 
 ---
 
